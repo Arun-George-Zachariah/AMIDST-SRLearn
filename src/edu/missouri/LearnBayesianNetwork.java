@@ -50,10 +50,10 @@ public class LearnBayesianNetwork {
             System.exit(-1);
         }
 
-        // Open the data stream.
+        // Opening the data stream.
         DataStream<DataInstance> data = DataStreamLoader.open(input);
 
-        // Create a ParallelMaximumLikelihood object.
+        // Creating a ParallelMaximumLikelihood object.
         ParallelMaximumLikelihood parameterLearningAlgorithm = new ParallelMaximumLikelihood();
 
         // Activating parallel mode.
@@ -71,7 +71,7 @@ public class LearnBayesianNetwork {
         // Setting the data to be used for leaning the parameters.
         parameterLearningAlgorithm.setDataStream(data);
 
-        // Perform the learning.
+        // Performing the learning.
         parameterLearningAlgorithm.runLearning();
 
         // Obtaining the model.
