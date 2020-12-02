@@ -1,6 +1,6 @@
 package edu.missouri;
 
-import edu.missouri.Constants.Constants;
+import edu.missouri.constants.Constants;
 import edu.missouri.util.CSV2Arff;
 import eu.amidst.core.datastream.DataInstance;
 import eu.amidst.core.datastream.DataStream;
@@ -32,14 +32,15 @@ public class LearnBayesianNetwork {
     public static void main(String[] args) throws Exception {
         if(args.length != 1) {
             System.out.println("edu.missouri.LearnBayesianNetwork <INPUT>");
+            System.exit(-1);
         }
 
         // Obtaining the input file.
-        String input = args[1];
+        String input = args[0];
 
         // If the input is a CSV, we convert it to as ARFF.
-        String[] fileSplits = input.split(".");
-        if(fileSplits[fileSplits.length-1] == Constants.CSV_EXTENSION) {
+        String[] fileSplits = input.split("\\.");
+        if(fileSplits[fileSplits.length-1].equals(Constants.CSV_EXTENSION)) {
             input = CSV2Arff.getInstance().convertCSV2Arff(input);
         }
 

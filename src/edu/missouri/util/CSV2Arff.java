@@ -1,7 +1,7 @@
 // Ref: https://waikato.github.io/weka-wiki/formats_and_processing/converting_csv_to_arff/
 package edu.missouri.util;
 
-import edu.missouri.Constants.Constants;
+import edu.missouri.constants.Constants;
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVLoader;
@@ -25,10 +25,10 @@ public class CSV2Arff {
 
 
     public static String convertCSV2Arff(String csvInPath) throws Exception {
-        String[] splits = csvInPath.split(csvInPath);
+        String[] splits = csvInPath.split("\\.");
 
         // Validating the input.
-        if(splits[splits.length - 1] != Constants.CSV_EXTENSION) {
+        if(!splits[splits.length-1].equals(Constants.CSV_EXTENSION)) {
             System.out.println("CSV2Arff :: convertCSV2Arff :: Extension not ." + Constants.CSV_EXTENSION);
             return null;
         }
@@ -38,7 +38,7 @@ public class CSV2Arff {
         for(int i=0; i<splits.length - 1; i++) {
             sb.append(splits[i]);
         }
-        sb.append(Constants.ARFF_EXTENSION);
+        sb.append(Constants.DOT + Constants.ARFF_EXTENSION);
 
 
         // Loading the CSV.
@@ -53,8 +53,8 @@ public class CSV2Arff {
         saver.setDestination(new File(sb.toString()));
         saver.writeBatch();
 
-        System.out.println("CSV2Arff :: convertCSV2Arff :: Successfully converted to ." + Constants.CSV_EXTENSION);
-
+        // Returning the output file name.
+        System.out.println("CSV2Arff :: convertCSV2Arff :: Successfully converted " + sb.toString());
         return sb.toString();
     }
 }
