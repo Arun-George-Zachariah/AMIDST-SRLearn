@@ -1,14 +1,9 @@
 package edu.missouri;
 
 import edu.missouri.constants.Constants;
-import edu.missouri.util.CSV2Arff;
-import eu.amidst.core.datastream.DataInstance;
-import eu.amidst.core.datastream.DataStream;
+import edu.missouri.util.CSV2JSON;
 import eu.amidst.core.models.BayesianNetwork;
-import eu.amidst.core.models.DAG;
 import eu.amidst.core.utils.DAGGenerator;
-import eu.amidst.core.variables.Variable;
-import eu.amidst.core.variables.Variables;
 import eu.amidst.sparklink.core.io.DataSparkLoader;
 import eu.amidst.sparklink.core.learning.ParallelMaximumLikelihood;
 import org.apache.spark.SparkConf;
@@ -18,22 +13,6 @@ import eu.amidst.sparklink.core.data.DataSpark;
 
 
 public class LearnBayesianNetworkSpark {
-    public static DAG getNaiveBayesStructure(DataStream<DataInstance> dataStream, int classIndex){
-
-        // Creating a Variables object from the attributes of the data stream
-        Variables modelHeader = new Variables(dataStream.getAttributes());
-
-        // Define the predictive class variable
-        Variable classVar = modelHeader.getVariableById(classIndex);
-
-        // Creating a DAG object with the defined model header
-        DAG dag = new DAG(modelHeader);
-
-        //We set the links of the DAG.
-        dag.getParentSets().stream().filter(w -> w.getMainVar() != classVar).forEach(w -> w.addParent(classVar));
-
-        return dag;
-    }
 
     public static void main(String[] args) throws Exception {
         if(args.length != 1) {
@@ -47,12 +26,12 @@ public class LearnBayesianNetworkSpark {
         // If the input is a CSV, we convert it to as ARFF.
         String[] fileSplits = input.split("\\.");
         if(fileSplits[fileSplits.length-1].equals(Constants.CSV_EXTENSION)) {
-            input = CSV2Arff.getInstance().convertCSV2Arff(input);
+            input = CSV2JSON.getInstance().convertCSV2JSON(input);
         }
 
         // Validating the conversion.
         if(input == null) {
-            System.out.println("LearnBayesianNetwork :: main :: Invalid input provided.");
+            System.out.println("LearnBayesianNetworkSpark :: main :: Invalid input provided.");
             System.exit(-1);
         }
 
