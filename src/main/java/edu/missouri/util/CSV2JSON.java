@@ -1,13 +1,7 @@
 package edu.missouri.util;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.csv.*;
 import edu.missouri.constants.Constants;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
 
 public class CSV2JSON {
     public static CSV2JSON instance = null;
@@ -40,16 +34,30 @@ public class CSV2JSON {
         }
         sb.append(Constants.DOT + Constants.JSON_EXTENSION);
 
-        try (FileWriter fileWriter = new FileWriter(new File(sb.toString()))) {
-            // Reading the contents of the CSV and converting it to a JSON.
-            CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
-            CsvMapper csvMapper = new CsvMapper();
-            MappingIterator<Map<?, ?>> mappingIterator =  csvMapper.reader().forType(Map.class).with(csvSchema).readValues(new File(csvInPath));
-            List<Map<?, ?>> list = mappingIterator.readAll();
+        try(BufferedReader br = new BufferedReader(new FileReader(new File(csvInPath)));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(sb.toString())))) {
+            // Obtaining the header.
+            String line = br.readLine();
+            String[] header = line.split(",");
 
-            // Writing the output to a file.
-            fileWriter.write(String.valueOf(list));
-        } catch(Exception e) {
+            // Iterating over the contents.
+            while((line = br.readLine()) != null) {
+                String[] content = line.split(",");
+
+                // Creating the json.
+                StringBuffer jsonBuffer = new StringBuffer();
+                jsonBuffer.append("{");
+                for(int i=0; i<header.length-1; i++) {
+                    jsonBuffer.append("\"" + header[i] + "\":\"" + content[i] + "\",");
+                }
+                jsonBuffer.append("\"" + header[header.length-1] + "\":\"" + content[header.length-1] + "\"}\n");
+
+                // Writing to the file.
+                bw.write(jsonBuffer.toString());
+                bw.flush();
+            }
+
+        } catch (Exception e) {
             System.out.println("CSV2JSON :: convertCSV2JSON :: Exception encountered converting to a JSON.");
             e.printStackTrace();
         }
