@@ -23,16 +23,10 @@ public class LearnBayesianNetworkSpark {
         // Obtaining the input file.
         String input = args[0];
 
-        // If the input is a CSV, we convert it to as ARFF.
-        String[] fileSplits = input.split("\\.");
-        if(fileSplits[fileSplits.length-1].equals(Constants.CSV_EXTENSION)) {
-            input = CSV2JSON.getInstance().convertCSV2JSON(input);
-        }
-
         // Validating the conversion.
-        if(input == null) {
-            System.out.println("LearnBayesianNetworkSpark :: main :: Invalid input provided.");
-            System.exit(-1);
+        String[] fileSplits = input.split("\\.");
+        if(!fileSplits[fileSplits.length-1].equals(Constants.JSON_EXTENSION)) {
+            System.out.println("LearnBayesianNetworkSpark :: main :: Invalid input provided. Input needs to be a .json");
         }
 
         // Creating the Spark context.
