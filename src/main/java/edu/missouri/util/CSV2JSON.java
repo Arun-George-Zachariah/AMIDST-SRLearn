@@ -77,7 +77,9 @@ public class CSV2JSON {
                 System.out.println("CSV2JSON :: main :: Exception encountered while converting.");
                 e.printStackTrace();
             }
-
+        }  else {
+            System.out.println("CSV2Arff :: main :: Invalid input provided. The input should be .csv");
+            System.exit(-1);
         }
 
         // Validating the conversion.

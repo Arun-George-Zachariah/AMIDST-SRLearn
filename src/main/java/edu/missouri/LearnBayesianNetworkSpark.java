@@ -23,7 +23,7 @@ public class LearnBayesianNetworkSpark {
         // Obtaining the input file.
         String input = args[0];
 
-        // Validating the conversion.
+        // Validating the input.
         String[] fileSplits = input.split("\\.");
         if(!fileSplits[fileSplits.length-1].equals(Constants.JSON_EXTENSION)) {
             System.out.println("LearnBayesianNetworkSpark :: main :: Invalid input provided. Input needs to be a .json");

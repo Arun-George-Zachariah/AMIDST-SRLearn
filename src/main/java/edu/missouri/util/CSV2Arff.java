@@ -57,4 +57,29 @@ public class CSV2Arff {
         System.out.println("CSV2Arff :: convertCSV2Arff :: Successfully converted " + sb.toString());
         return sb.toString();
     }
+
+    public static void main(String[] args) throws Exception {
+        if (args.length != 1) {
+            System.out.println("edu.missouri.util.CSV2Arff <INPUT>");
+            System.exit(-1);
+        }
+
+        // Obtaining the input file.
+        String input = args[0];
+
+        // If the input is a CSV, we convert it to as ARFF.
+        String[] fileSplits = input.split("\\.");
+        if (fileSplits[fileSplits.length - 1].equals(Constants.CSV_EXTENSION)) {
+            input = CSV2Arff.getInstance().convertCSV2Arff(input);
+        } else {
+            System.out.println("CSV2Arff :: main :: Invalid input provided. The input should be .csv");
+            System.exit(-1);
+        }
+
+        // Validating the conversion.
+        if (input == null) {
+            System.out.println("CSV2Arff :: main :: Invalid input provided.");
+            System.exit(-1);
+        }
+    }
 }
