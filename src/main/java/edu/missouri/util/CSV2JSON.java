@@ -59,4 +59,33 @@ public class CSV2JSON {
 
     }
 
+    public static void main(String[] args) {
+        if(args.length != 1) {
+            System.out.println("edu.missouri.util.CSV2JSON <INPUT>");
+            System.exit(-1);
+        }
+
+        // Obtaining the input file.
+        String input = args[0];
+
+        // If the input is a CSV, we convert it to a JSON.
+        String[] fileSplits = input.split("\\.");
+        if(fileSplits[fileSplits.length-1].equals(Constants.CSV_EXTENSION)) {
+            try {
+                input = CSV2JSON.getInstance().convertCSV2JSON(input);
+            } catch(Exception e) {
+                System.out.println("CSV2JSON :: main :: Exception encountered while converting.");
+                e.printStackTrace();
+            }
+
+        }
+
+        // Validating the conversion.
+        if(input == null) {
+            System.out.println("CSV2JSON :: main :: Invalid input provided.");
+            System.exit(-1);
+        }
+
+    }
+
 }
