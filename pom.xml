@@ -63,11 +63,15 @@
             <groupId>eu.amidst</groupId>
             <artifactId>core</artifactId>
             <version>0.7.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/core-0.7.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>eu.amidst</groupId>
             <artifactId>sparklink</artifactId>
             <version>0.7.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/sparklink-0.7.2.jar</systemPath>
         </dependency>
     </dependencies>
 

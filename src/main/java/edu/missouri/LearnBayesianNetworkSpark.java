@@ -27,6 +27,7 @@ public class LearnBayesianNetworkSpark {
         String[] fileSplits = input.split("\\.");
         if(!fileSplits[fileSplits.length-1].equals(Constants.JSON_EXTENSION)) {
             System.out.println("LearnBayesianNetworkSpark :: main :: Invalid input provided. Input needs to be a .json");
+            System.exit(-1);
         }
 
         // Creating the Spark context.
