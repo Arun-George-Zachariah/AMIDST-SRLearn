@@ -15,13 +15,14 @@ import eu.amidst.sparklink.core.data.DataSpark;
 public class LearnBayesianNetworkSpark {
 
     public static void main(String[] args) throws Exception {
-        if(args.length != 1) {
-            System.out.println("edu.missouri.LearnBayesianNetworkSpark <INPUT>");
+        if(args.length != 2) {
+            System.out.println("edu.missouri.LearnBayesianNetworkSpark <INPUT> <TARGET_VARIABLE>");
             System.exit(-1);
         }
 
-        // Obtaining the input file.
+        // Obtaining the input.
         String input = args[0];
+        String targetVariable = args[1];
 
         // Validating the input.
         String[] fileSplits = input.split("\\.");
@@ -44,10 +45,10 @@ public class LearnBayesianNetworkSpark {
         ParallelMaximumLikelihood parameterLearningAlgorithm = new ParallelMaximumLikelihood();
 
         // Fixing the DAG structure.
-        parameterLearningAlgorithm.setDAG(DAGGenerator.getNaiveBayesStructure(dataSpark.getAttributes(), "W"));
+        parameterLearningAlgorithm.setDAG(DAGGenerator.getNaiveBayesStructure(dataSpark.getAttributes(), targetVariable));
 
         // Setting the batch size which will be employed to learn the model in parallel.
-        parameterLearningAlgorithm.setBatchSize(100);
+        parameterLearningAlgorithm.setBatchSize(Constants.BATCH_SIZE);
 
         // Setting the data to be used for leaning the parameters.
         parameterLearningAlgorithm.setDataSpark(dataSpark);

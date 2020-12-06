@@ -7,4 +7,6 @@ public class Constants {
     public static final String DOT = ".";
     public static final String APP_NAME = "AMIDST-SRLearn";
     public static final String MASTER = "local";
+
+    public static final int BATCH_SIZE = 100;
 }
